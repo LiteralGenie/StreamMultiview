@@ -1,8 +1,5 @@
-from flask import Flask
-from blueprints import feed, root
+from app.app import app
+from waitress import serve
 
-
-app= Flask(__name__)
-app.register_blueprint(root.bp)
-app.register_blueprint(feed.bp)
-app.run(debug=True, host="0.0.0.0")
+if __name__ == "__main__":
+	serve(app, host='0.0.0.0', port=8282)
