@@ -1,0 +1,6 @@
+feeds:
+  - name: memorable_identifier
+    url: "rtsp://99.99.99.999:1111/camera_url"
+
+  - name: ...
+    url: "..."

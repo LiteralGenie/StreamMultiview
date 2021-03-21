@@ -37,6 +37,15 @@ def dump_json(data, path):
 	# dont use \u characters
 	json.dump(data, open(path,"w",encoding='utf-8'), ensure_ascii=False, indent=2)
 
-def render(path, **kwargs):
+def render(template, **kwargs):
 	from mako.template import Template
-	return Template(open(path, encoding='utf-8').read()).render(**kwargs)
+
+	dct= {} # { x.upper():y for x,y in dct.items() }
+	dct.update({ x.upper():y for x,y in kwargs.items() })
+
+	try:
+		return Template(template).render(**dct)
+	except:
+		from mako import exceptions
+		print(exceptions.text_error_template().render())
+		raise Exception
