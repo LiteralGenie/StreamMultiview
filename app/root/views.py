@@ -8,5 +8,6 @@ class HomeView(views.MethodView):
 		self.template= open(utils.TEMPLATE_DIR + "home.html").read()
 
 	def get(self):
+		print('getting home')
 		feed_config= utils.load_yaml(utils.FEED_CONFIG)
 		return utils.render(self.template, feed_config=feed_config)
