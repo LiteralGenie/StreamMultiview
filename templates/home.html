@@ -2,10 +2,22 @@
 <head></head>
 
 <body>
+<div id="video-grid" style="display: grid; grid-auto-flow: row; grid-template-columns: auto auto; grid-gap: 10px; padding: 20px 0px 0px 50px">
 % for i,x in enumerate(FEED_CONFIG['feeds']):
-<a href="${x['http_link']}">${x['name']}</a>
-<br><img src="/feed_${i}">
-<hr>
+    <div style="resize:both; overflow: hidden;">
+        <a href="${x['http_link']}">${x['name']}</a>
+        <img src="/feed_${i}" class='feed_img' id="feed_${i}" style="height: 100%; width: 100%">
+    </div>
 % endfor
+</div>
+
+<script>
+    let ims= Array.from(document.getElementsByClassName('feed_img'))
+    for(let i of ims) {
+        i.addEventListener('load', () => {
+            <%text> i.src = `/${i.id}?t=${new Date().getTime()}`</%text>
+        })
+    }
+</script>
 </body>
 </html>
