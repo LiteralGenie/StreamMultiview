@@ -9,5 +9,4 @@ class FeedView(views.MethodView):
 
 	def get(self):
 		print('getting', self.url)
-		sep= 'sep'
-		return Response(get_feed_gen(self.url, sep=sep), mimetype=f'multipart/x-mixed-replace; boundary={sep}')
+		return Response(get_feed_gen(self.url), mimetype=f'multipart/x-mixed-replace; boundary=sep')

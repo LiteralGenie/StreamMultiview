@@ -16,7 +16,7 @@ class Feed:
 			ret, frame= self.cap.read()
 			if ret:
 				self.index+= 1
-				self.last_frame= frame
+				self.last_frame= web_encode(frame)
 
 
 feed_dict= {}
@@ -38,11 +38,12 @@ def get_feed_gen(url, **kwargs):
 
 		frame= feed.last_frame
 		frame_index= feed.index
-		yield web_encode(frame, **kwargs)
+		yield frame
 
 
 def web_encode(image, sep="sep", extension="png", mimetype="image/png"):
 	extension= re.sub(r'^\.*', '', extension)
+	# image= cv2.resize(image, (0,0), fx=0.5, fy=0.5)
 	_,image= cv2.imencode(f'.{extension}', image)
 	return b'--' + sep.encode() + \
 		   b'\r\nContent-Type: ' + mimetype.strip().encode() + b'\r\n\r\n' + \
