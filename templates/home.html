@@ -10,14 +10,5 @@
     </div>
 % endfor
 </div>
-
-<script>
-    let ims= Array.from(document.getElementsByClassName('feed_img'))
-    for(let i of ims) {
-        i.addEventListener('load', () => {
-            <%text> i.src = `/${i.id}?t=${new Date().getTime()}`</%text>
-        })
-    }
-</script>
 </body>
 </html>

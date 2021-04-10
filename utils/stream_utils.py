@@ -7,6 +7,7 @@ class Feed:
 		self.url= url
 		self.cap= cv2.VideoCapture(url)
 		self.last_frame= self.cap.read()[1]
+		self.index= 0
 
 		threading.Thread(target=self.start, args=()).start()
 
@@ -14,6 +15,7 @@ class Feed:
 		while True:
 			ret, frame= self.cap.read()
 			if ret:
+				self.index+= 1
 				self.last_frame= frame
 
 
@@ -26,31 +28,29 @@ def get_feed(url):
 		feed_dict[url]= Feed(url)
 	return feed_dict[url]
 
-# def get_feed_gen(url, encode=True, **kwargs):
-# 	cap= get_feed(url)
-# 	while cap.isOpened():
-# 		ret,frame= cap.read()
-# 		if ret:
-# 			if encode:
-# 				frame= web_encode(frame, **kwargs)
-#
-# 			yield frame
-# 			return
+def get_feed_gen(url, **kwargs):
+	feed= get_feed(url)
 
-# def web_encode(image, sep="sep", extension="png", mimetype="image/png"):
-# 	extension= re.sub(r'^\.*', '', extension)
-# 	_,image= cv2.imencode(f'.{extension}', image)
-# 	return b'--' + sep.encode() + \
-# 		   b'\r\nContent-Type: ' + mimetype.strip().encode() + b'\r\n\r\n' + \
-# 		   bytes(image) + b'\r\n'
+	frame= feed.last_frame
+	frame_index= feed.index
+	yield web_encode(frame)
 
-def web_encode(image, extension="png", mimetype="image/png"):
+	while True:
+		while frame_index == feed.index:
+			time.sleep(0.01)
+
+		frame= feed.last_frame
+		frame_index= feed.index
+		yield web_encode(frame, **kwargs)
+
+
+def web_encode(image, sep="sep", extension="png", mimetype="image/png"):
 	extension= re.sub(r'^\.*', '', extension)
 	_,image= cv2.imencode(f'.{extension}', image)
+	return b'--' + sep.encode() + \
+		   b'\r\nContent-Type: ' + mimetype.strip().encode() + b'\r\n\r\n' + \
+		   bytes(image) + b'\r\n'
 
-	image= io.BytesIO(image)
-
-	return send_file(image, mimetype=mimetype, cache_timeout=-1)
 
 def read_feed(url):
 	feed= get_feed(url)

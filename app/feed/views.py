@@ -1,5 +1,5 @@
 from flask import views, Response
-from utils.stream_utils import read_feed
+from utils.stream_utils import *
 
 
 class FeedView(views.MethodView):
@@ -8,4 +8,6 @@ class FeedView(views.MethodView):
 		self.url= url
 
 	def get(self):
-		return read_feed(self.url)
+		print('getting', self.url)
+		sep= 'sep'
+		return Response(get_feed_gen(self.url, sep=sep), mimetype=f'multipart/x-mixed-replace; boundary={sep}')
