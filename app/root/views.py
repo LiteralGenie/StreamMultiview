@@ -5,7 +5,7 @@ import utils
 class HomeView(views.MethodView):
 	def __init__(self):
 		super().__init__()
-		self.template= open(utils.TEMPLATE_DIR + "home.html").read()
+		self.template= open(utils.TEMPLATE_DIR + "index.html").read()
 
 	def get(self):
 		print('getting home')

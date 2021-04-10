@@ -2,3 +2,4 @@
 /.idea/
 /config/*
 !config/*_example
+/data/stream_dumps/*/*.ts
