@@ -6,7 +6,7 @@ class Feed:
 	def __init__(self, url):
 		self.url= url
 		self.cap= cv2.VideoCapture(url)
-		self.last_frame= self.cap.read()[1]
+		self.last_frame= web_encode(self.cap.read()[1])
 		self.index= 0
 
 		threading.Thread(target=self.start, args=()).start()
