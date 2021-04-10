@@ -2,4 +2,5 @@
 /.idea/
 /config/*
 !config/*_example
-/data/stream_dumps/*/*.ts
+/data/stream_dumps/*/*
+!/data/stream_dumps/*/_
