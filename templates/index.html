@@ -5,9 +5,13 @@
 </head>
 
 <body>
-<div id="video-grid" style="display: grid; grid-auto-flow: row; grid-template-columns: auto auto; grid-gap: 10px; padding: 20px 0px 0px 50px">
+<div style="font-size:130%;"> Recommended: Zoom out to ~50%.</div>
+<div>(If a video looks cropped, zooming in / out may fix it by forcing it to update.)</div>
+<br><br>
+
+<div id="video-grid">
 % for i,x in enumerate(FEED_CONFIG['feeds']):
-    <div style="resize:both; overflow: hidden;">
+    <div>
         <a href="${x['http_link']}">${x['name']}</a><br>
         <video controls autoplay muted="true" feed-index="${i}"></video>
     </div>

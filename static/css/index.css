@@ -1,3 +1,16 @@
 video {
     height: 100%;
 }
+
+#video-grid {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    padding: 0px 0px 0px 50px
+}
+
+#video-grid > div {
+    resize:none;
+    overflow: hidden;
+}
