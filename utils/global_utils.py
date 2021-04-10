@@ -8,8 +8,6 @@ DATA_DIR= ROOT_DIR + "data/"
 TEMPLATE_DIR= ROOT_DIR + "templates/"
 STATIC_DIR= ROOT_DIR + "static/"
 
-STREAM_DIR= DATA_DIR + "/stream_dumps/"
-
 ###
 
 

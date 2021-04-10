@@ -1,4 +1,4 @@
-from flask import views
+from flask import views, request
 import utils
 
 
@@ -8,6 +8,6 @@ class HomeView(views.MethodView):
 		self.template= open(utils.TEMPLATE_DIR + "index.html").read()
 
 	def get(self):
-		print('getting home')
+		print(f'home - {request.remote_addr}')
 		feed_config= utils.load_yaml(utils.FEED_CONFIG)
 		return utils.render(self.template, feed_config=feed_config)

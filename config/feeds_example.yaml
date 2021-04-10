@@ -1,6 +1,8 @@
 feeds:
   - name: memorable_identifier
+    dir: folder_path_with_hls_segments
     url: "rtsp://99.99.99.999:1111/camera_url"
+    http_link: link_to_oem_stream
 
   - name: ...
     url: "..."

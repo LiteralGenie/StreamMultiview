@@ -11,7 +11,7 @@ class PlaylistView(views.MethodView):
 	def get(self):
 		playlist_file= self.video_dir + "index.m3u8"
 		playlist= open(playlist_file).read()
-		playlist= re.sub(r".:.*?([^/\\]+ts)", rf"video/\1", playlist)
+		playlist= re.sub(r".:.*?([^/\\]+\.ts)", rf"video/\1", playlist)
 
 		return Response(playlist, content_type="application/vnd.apple.mpegurl")
 
