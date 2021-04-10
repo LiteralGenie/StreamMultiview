@@ -30,14 +30,11 @@ def get_feed(url):
 
 def get_feed_gen(url, **kwargs):
 	feed= get_feed(url)
-
-	frame= feed.last_frame
 	frame_index= feed.index
-	yield web_encode(frame)
 
 	while True:
 		while frame_index == feed.index:
-			time.sleep(0.01)
+			time.sleep(0.001)
 
 		frame= feed.last_frame
 		frame_index= feed.index
