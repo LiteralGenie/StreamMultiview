@@ -10,7 +10,12 @@ video {
     padding: 0px 0px 0px 50px
 }
 
-@media (max-width:960px) {
+@media (max-width:900px) {
+    #video-grid {
+        height: 100%
+    }
+}
+@media (max-height:900px) {
     #video-grid {
         height: 100%
     }

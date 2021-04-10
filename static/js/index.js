@@ -12,3 +12,7 @@ for(let v of vids) {
         v.src = src;
     }
 }
+
+if(window.devicePixelRatio > 1) {
+    document.querySelector("#video-grid").style.height= "100%"
+}
