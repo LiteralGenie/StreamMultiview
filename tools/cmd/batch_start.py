@@ -1,18 +1,17 @@
 import subprocess, re, time, datetime
 from os import path
-import utils
+import config as CONFIG
 
 
 ## helpers
-CONFIG= utils.load_yaml(utils.FEED_CONFIG)
-proj_dir= path.realpath("../../") + path.sep
+proj_dir= path.dirname(path.dirname(__file__)) + path.sep
 
 DEBUG=0
 stderr= None if DEBUG else subprocess.DEVNULL
 
 get_stream_dir= lambda name: fr"{proj_dir}data\stream_dumps\{name}" + "/"
 get_ffmpeg_cmd= lambda name,stream: f"""
-ffmpeg \
+{CONFIG.ffmpeg_path} \
 -fflags nobuffer 
 -rtsp_transport tcp 
 -i {stream} 
