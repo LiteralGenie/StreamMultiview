@@ -11,4 +11,4 @@ STATIC_DIR= ROOT_DIR + "static/"
 ###
 
 
-FEED_CONFIG= CONFIG_DIR + "feeds.yaml"
+CONFIG_FILE= CONFIG_DIR + "config.yaml"

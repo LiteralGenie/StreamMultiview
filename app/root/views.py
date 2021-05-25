@@ -1,5 +1,5 @@
 from flask import views, request
-import utils
+import utils, config
 
 
 class HomeView(views.MethodView):
@@ -9,5 +9,4 @@ class HomeView(views.MethodView):
 
 	def get(self):
 		print(f'home - {request.remote_addr}')
-		feed_config= utils.load_yaml(utils.FEED_CONFIG)
-		return utils.render(self.template, feed_config=feed_config)
+		return utils.render(self.template, feed_config=config.feeds)

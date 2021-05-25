@@ -1,13 +1,11 @@
 from flask import Blueprint
 from .views import AggView
-import utils
+import utils, config
 
-
-config= utils.load_yaml(utils.FEED_CONFIG)
 
 bp= Blueprint('feed', __name__)
 
-for i,x in enumerate(config['feeds']):
+for i,x in enumerate(config.feeds):
 	base_path= f'feed_{i}'
 
 	agg_view= AggView(x['name'], x['dir'])

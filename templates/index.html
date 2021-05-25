@@ -9,7 +9,7 @@
 <br><br>
 
 <div id="video-grid">
-% for i,x in enumerate(FEED_CONFIG['feeds']):
+% for i,x in enumerate(FEED_CONFIG):
     <div>
         <a href="${x['http_link']}">${x['name']}</a><br>
         <video controls autoplay muted="true" feed-index="${i}"></video>
