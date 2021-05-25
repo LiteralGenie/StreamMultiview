@@ -1,4 +1,5 @@
-import subprocess, re, time, datetime
+import os
+import subprocess, re, time, datetime, utils
 from os import path
 import config as CONFIG
 
@@ -9,8 +10,8 @@ proj_dir= path.dirname(path.dirname(__file__)) + path.sep
 DEBUG=0
 stderr= None if DEBUG else subprocess.DEVNULL
 
-get_stream_dir= lambda name: fr"{proj_dir}data\stream_dumps\{name}" + "/"
-get_ffmpeg_cmd= lambda name,stream: f"""
+get_stream_dir= lambda name: fr'{utils.DATA_DIR}stream_dumps\{name}' + "/"
+get_ffmpeg_cmd= lambda dir,stream: f"""
 {CONFIG.ffmpeg_path} \
 -fflags nobuffer 
 -rtsp_transport tcp 
@@ -27,10 +28,10 @@ get_ffmpeg_cmd= lambda name,stream: f"""
 -segment_time 0.5 
 -segment_list_size 10  
 -segment_format mpegts  
--segment_list {get_stream_dir(name)}index.m3u8  
+-segment_list "{dir}index.m3u8"  
 -segment_list_type m3u8 
--segment_list_entry_prefix {get_stream_dir(name)} 
-{get_stream_dir(name)}%9d.ts 
+-segment_list_entry_prefix "{dir}" 
+"{dir}%9d.ts" 
 """.strip().replace("\n", " ")
 
 get_log_file= lambda x: fr"{proj_dir}\tools\cmd\logs\{x}.txt"
@@ -40,7 +41,10 @@ streams= {
 	# "bed": "rtsp://banoi:ThienDinh716@68.0.23.131:1931/videoMain",
 	# "dining": "rtsp://banoi:ThienDinh716@68.0.23.131:1934/videoMain",
 	# "living": "rtsp://68.0.23.131:10554/tcp/av0_0",
-	x['name'] : x['url'] for x in CONFIG['feeds']
+	x['name']: dict(
+		url=x['url'],
+		dir=x['dir'],
+	) for x in CONFIG.feeds
 }
 
 sequence_regex= re.compile(r"#EXT-X-MEDIA-SEQUENCE:(\d+)")
@@ -68,9 +72,13 @@ def write(x):
 
 stream_procs= { x:{} for x in streams }
 for x,y in streams.items():
-	cmd= stream_procs[x]['cmd']= get_ffmpeg_cmd(x,y) # + get_log_cmd(x)
+	s_dir= get_stream_dir(x)
+	if not path.exists(s_dir):
+		os.makedirs(s_dir)
+
+	cmd= stream_procs[x]['cmd']= get_ffmpeg_cmd(y['dir'],y['url']) # + get_log_cmd(x)
 	stream_procs[x]['proc']= subprocess.Popen(cmd, stderr=stderr)
-	stream_procs[x]['index_file']= get_stream_dir(x) + "index.m3u8"
+	stream_procs[x]['index_file']= s_dir + "index.m3u8"
 	stream_procs[x]['last_index']= None
 	write(cmd)
 
@@ -93,4 +101,6 @@ while True:
 				dct['last_index']= val
 		except PermissionError:
 			write(f"Permission error while checking {name}.")
+		except FileNotFoundError:
+			pass
 	time.sleep(15)

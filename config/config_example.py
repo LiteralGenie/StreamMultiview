@@ -14,4 +14,4 @@ feeds= [
   ),
 ]
 
-ffmpeg_path= utils.DATA_DIR + "/bin/ffmpeg.exe"
+ffmpeg_path= utils.DATA_DIR + "ffmpeg/bin/ffmpeg.exe"
