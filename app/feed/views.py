@@ -21,7 +21,7 @@ class VideoView(views.MethodView):
 		self.video_dir= video_dir
 
 	def get(self, file_name):
-		resp= make_response(send_from_directory(directory=self.video_dir, filename=file_name))
+		resp= make_response(send_from_directory(directory=self.video_dir, path=file_name))
 		return resp
 
 class AggView:
